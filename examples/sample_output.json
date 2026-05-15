@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "tool": "LeightonSec Port Scanner",
+    "version": "1.0.0",
+    "timestamp": "2026-05-15T07:00:00+00:00",
+    "target": "127.0.0.1",
+    "duration_seconds": 1.843,
+    "summary": {
+      "total": 1024,
+      "open": 4,
+      "closed": 987,
+      "filtered": 33
+    }
+  },
+  "results": [
+    {
+      "host": "127.0.0.1",
+      "port": 22,
+      "state": "open",
+      "latency_ms": 0.31,
+      "service": "ssh",
+      "banner": "SSH-2.0-OpenSSH_9.6"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 80,
+      "state": "open",
+      "latency_ms": 0.18,
+      "service": "http",
+      "banner": "HTTP/1.1 200 OK"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 443,
+      "state": "open",
+      "latency_ms": 0.22,
+      "service": "https",
+      "banner": null
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 5432,
+      "state": "open",
+      "latency_ms": 0.29,
+      "service": "postgresql",
+      "banner": null
+    }
+  ]
+}

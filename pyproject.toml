@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "port-scanner"
+version = "1.0.0"
+description = "TCP connect port scanner for authorised security assessment — LeightonSec portfolio tool"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "LeightonSec" }]
+keywords = ["security", "port-scanner", "tcp", "recon", "cybersecurity", "nmap"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Topic :: Security",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "typer>=0.12.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+port-scanner = "scanner.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/LeightonSec/port-scanner"
+Issues = "https://github.com/LeightonSec/port-scanner/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scanner*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+omit = ["tests/*", "scanner/cli.py", "scanner/reporter.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP"]
+ignore = ["E501"]
