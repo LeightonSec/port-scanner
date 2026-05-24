@@ -20,13 +20,16 @@ def _make_results() -> list[ScanResult]:
 
 
 class TestToJson:
+    # All json.loads calls below round-trip output from our own to_json() function —
+    # there is no external data source. gate: ignore tags suppress the false positives.
+
     def test_returns_valid_json(self):
         output = to_json(_make_results(), "127.0.0.1", 2.5)
-        parsed = json.loads(output)
+        parsed = json.loads(output)  # gate: ignore
         assert isinstance(parsed, dict)
 
     def test_metadata_present(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         meta = parsed["metadata"]
         assert meta["target"] == "127.0.0.1"
         assert "timestamp" in meta
@@ -35,7 +38,7 @@ class TestToJson:
         assert "version" in meta
 
     def test_summary_counts_correct(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         summary = parsed["metadata"]["summary"]
         assert summary["open"] == 2
         assert summary["closed"] == 1
@@ -43,28 +46,28 @@ class TestToJson:
         assert summary["total"] == 4
 
     def test_results_array_present(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         assert "results" in parsed
         assert len(parsed["results"]) == 4
 
     def test_all_states_represented(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         states = {r["state"] for r in parsed["results"]}
         assert states == {"open", "closed", "filtered"}
 
     def test_banner_included_when_present(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         ssh = next(r for r in parsed["results"] if r["port"] == 22)
         assert ssh["banner"] == "SSH-2.0"
 
     def test_banner_null_when_absent(self):
-        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))
+        parsed = json.loads(to_json(_make_results(), "127.0.0.1", 2.5))  # gate: ignore
         http = next(r for r in parsed["results"] if r["port"] == 80)
         assert http["banner"] is None
 
     def test_empty_results(self):
         output = to_json([], "127.0.0.1", 0.1)
-        parsed = json.loads(output)
+        parsed = json.loads(output)  # gate: ignore
         assert parsed["metadata"]["summary"]["total"] == 0
         assert parsed["results"] == []
 
